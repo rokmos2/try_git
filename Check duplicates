@@ -1,6 +1,6 @@
 # Define source and destination folders
-$sourceFolder = "C:\Users\<YourUser>\OneDrive\Photos"
-$destinationFolder = "C:\Users\<YourUser>\OneDrive\Originals"
+$sourceFolder = "F:\Kestral backups\OneDrive\Pictures"
+$destinationFolder = "F:\Kestral backups\Pictures"
 
 # Create destination folder if it doesn't exist
 if (!(Test-Path -Path $destinationFolder)) {
