@@ -1,0 +1,29 @@
+# Define source and destination folders
+$sourceFolder = "C:\Users\<YourUser>\OneDrive\Photos"
+$destinationFolder = "C:\Users\<YourUser>\OneDrive\Originals"
+
+# Create destination folder if it doesn't exist
+if (!(Test-Path -Path $destinationFolder)) {
+    New-Item -ItemType Directory -Path $destinationFolder
+}
+
+# Hashtable to store file hashes
+$hashTable = @{}
+
+# Get all image files (adjust extensions as needed)
+Get-ChildItem -Path $sourceFolder -Recurse -Include *.jpg, *.jpeg, *.png | ForEach-Object {
+    $file = $_
+    $hash = (Get-FileHash -Path $file.FullName -Algorithm MD5).Hash
+
+    if (-not $hashTable.ContainsKey($hash)) {
+        # First time seeing this hash → treat as original
+        $hashTable[$hash] = $file.FullName
+
+        # Move original to destination folder
+        $newPath = Join-Path $destinationFolder $file.Name
+        Move-Item -Path $file.FullName -Destination $newPath
+    } else {
+        # Duplicate detected → skip or delete if desired
+        Write-Host "Duplicate found: $file"
+    }
+}
