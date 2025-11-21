@@ -24,6 +24,6 @@ Get-ChildItem -Path $sourceFolder -Recurse -Include *.jpg, *.jpeg, *.png | ForEa
         Move-Item -Path $file.FullName -Destination $newPath
     } else {
         # Duplicate detected → skip or delete if desired
-        Write-Host "Duplicate found: $file"
+        Write-Host "Duplicate found called: $file"
     }
 }
